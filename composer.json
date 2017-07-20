@@ -1,0 +1,21 @@
+{
+    "name": "fortop/test-util",
+    "description": "Utils for testing pgtw",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Serhii Borodai",
+            "email": "clarifying@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Command\\": "src/Command"
+        }
+    },
+    "require": {
+        "symfony/console": "v3.3.5",
+        "phpseclib/phpseclib": "2.0.6"
+    }
+}
