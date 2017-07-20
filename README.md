@@ -1,6 +1,7 @@
 **utils for testing pgtw**
 
-install composer
+1. Install PHP
+2. Install composer
 https://getcomposer.org/doc/00-intro.md
 
 
