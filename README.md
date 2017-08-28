@@ -14,7 +14,8 @@ composer install
 How to use
 
 ```
-bin/pgtw - PGTW test helpers
+cd source_dir
+bin\pgtw - PGTW test helpers
 
 encryption with public key (pub)
 decription with privat key (sec)
