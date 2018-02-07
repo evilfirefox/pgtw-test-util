@@ -1,12 +1,18 @@
 <?php
 /**
- * @author Serhii Borodai <clarifying@gmail.com>
+ * pgtw-test-util
+ *
+ * @author Serhii Borodai <s.borodai@globalgames.net>
  */
 
 namespace Crypt;
 
-
-class SodiumSealBox implements EncoderInterface
+/**
+ * Class SodiumCryptoBox
+ * @package Crypt
+ * @author Serhii Borodai <s.borodai@globalgames.net>
+ */
+class SodiumCryptoBox implements EncoderInterface, NewEncodersInterface
 {
 
     protected $publicKey;
@@ -51,24 +57,29 @@ class SodiumSealBox implements EncoderInterface
      */
     public function encrypt($data): string
     {
-        throw new \Exception('Use SodiumCryptBox instead');
-
-        return sodium_crypto_box_seal($data, sodium_hex2bin($this->getPublicKey()));
+        return sodium_crypto_box(
+            $data,
+            random_bytes(SODIUM_CRYPTO_BOX_NONCEBYTES),
+            $this->getKeypairFromSecretPublicKeys()
+        );
     }
 
-    /**
-     * @param $cipher
-     * @return string
-     * @throws \Exception
-     */
     public function decrypt($cipher): string
     {
-        throw new \Exception('Use SodiumCryptBox instead');
+        $nonce = substr($cipher, 0, SODIUM_CRYPTO_BOX_NONCEBYTES);
+        $msg = substr($cipher, SODIUM_CRYPTO_BOX_NONCEBYTES);
 
-        return sodium_crypto_box_seal_open($cipher,
-            sodium_crypto_box_keypair_from_secretkey_and_publickey(sodium_hex2bin($this->getPrivateKey()),
-                sodium_crypto_box_publickey_from_secretkey(sodium_hex2bin($this->getPrivateKey())))
+        return sodium_crypto_box_open($msg, $nonce, $this->getKeypairFromSecretPublicKeys());
+
+    }
+
+    public function getKeypairFromSecretPublicKeys()
+    {
+        $keypair = sodium_crypto_box_keypair_from_secretkey_and_publickey(
+            $this->getPrivateKey(),
+            $this->getPublicKey()
         );
+        return $keypair;
     }
 
     public function createKeypair(): array

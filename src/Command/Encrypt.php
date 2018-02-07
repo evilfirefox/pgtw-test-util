@@ -9,6 +9,7 @@ namespace Command;
 
 
 use Crypt\EncoderInterface;
+use Crypt\NewEncodersInterface;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,6 +23,7 @@ class Encrypt extends CommandAbstract
         $this->setDescription('encrypt package of data with key from key file, then base64 encode result');
         $this->addArgument('package', InputArgument::REQUIRED);
         $this->addArgument('keyfile', InputArgument::REQUIRED);
+        $this->addArgument('privkeyfile', InputArgument::OPTIONAL);
         $this->addArgument('algorithm', InputArgument::REQUIRED);
     }
 
@@ -34,12 +36,18 @@ class Encrypt extends CommandAbstract
 
 
         $package = $input->getArgument('package');
-        $keyfile = $input->getArgument('keyfile');
+        $pubkeyfile = $input->getArgument('keyfile');
+        $privkeyfile = $input->getArgument('privkeyfile');
         $FQN = "Crypt\\${algorithm}";
 
         /** @var EncoderInterface $encoder */
         $encoder = new $FQN;
-        $encoder->setPublicKey(file_get_contents($keyfile));
+        $encoder->setPublicKey(file_get_contents($pubkeyfile));
+        if ($encoder instanceof NewEncodersInterface && !$privkeyfile) {
+            throw new \Exception('private key file required');
+        } elseif ($encoder instanceof NewEncodersInterface) {
+            $encoder->setPrivateKey(file_get_contents($privkeyfile));
+        }
         $result = $encoder->encrypt($package);
         if ($result) {
             $result = base64_encode($result);

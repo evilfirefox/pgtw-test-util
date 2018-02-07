@@ -24,6 +24,7 @@ class Decrypt extends CommandAbstract
         $this->setDescription('decrypt base64 package of data with key from key file');
         $this->addArgument('package', InputArgument::REQUIRED);
         $this->addArgument('keyfile', InputArgument::REQUIRED);
+        $this->addArgument('privkeyfile', InputArgument::OPTIONAL);
         $this->addArgument('algorithm', InputArgument::REQUIRED);
     }
 
@@ -35,13 +36,20 @@ class Decrypt extends CommandAbstract
         }
         $package = $input->getArgument('package');
         $keyfile = $input->getArgument('keyfile');
+        $privkeyfile = $input->getArgument('privkeyfile');
 
         $FQN = "Crypt\\${algorithm}";
 
         /** @var EncoderInterface $encoder */
         $encoder = new $FQN;
+        if ($encoder instanceof NewEncodersInterface && !$privkeyfile) {
+            throw new \Exception('private key file required');
+        } elseif ($encoder instanceof NewEncodersInterface) {
+            $encoder->setPrivateKey(file_get_contents($privkeyfile));
+        } else {
+            $encoder->setPrivateKey(file_get_contents($keyfile));
+        }
 
-        $encoder->setPrivateKey(file_get_contents($keyfile));
         $result = base64_decode($package);
         if (!$result) {
             throw new RuntimeException('base64 decode error');
