@@ -12,7 +12,7 @@ namespace Crypt;
  * @package Crypt
  * @author Serhii Borodai <s.borodai@globalgames.net>
  */
-class SodiumCryptoBox implements EncoderInterface, NewEncodersInterface
+class SodiumCryptoBox implements EncoderInterface, NewEncoderInterface
 {
 
     protected $publicKey;

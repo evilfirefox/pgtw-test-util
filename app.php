@@ -7,6 +7,7 @@
 
 use Command\Decrypt;
 use Command\Encrypt;
+use Command\Keys;
 
 require 'vendor/autoload.php';
 
@@ -23,7 +24,8 @@ $app = new App();
 
 $app->addCommands([
     new Encrypt(),
-    new Decrypt()
+    new Decrypt(),
+    new Keys()
 ]);
 
 
