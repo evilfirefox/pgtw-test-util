@@ -47,6 +47,7 @@ class Decrypt extends CommandAbstract
             throw new \Exception('private key file required');
         } elseif ($encoder instanceof NewEncoderInterface) {
             $encoder->setPrivateKey(file_get_contents($privkeyfile));
+            $encoder->setPublicKey(file_get_contents($keyfile));
         } else {
             $encoder->setPrivateKey(file_get_contents($keyfile));
         }

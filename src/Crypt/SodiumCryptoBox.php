@@ -57,9 +57,10 @@ class SodiumCryptoBox implements EncoderInterface, NewEncoderInterface
      */
     public function encrypt($data): string
     {
-        return sodium_crypto_box(
+        $nonce = random_bytes(SODIUM_CRYPTO_BOX_NONCEBYTES);
+        return $nonce . sodium_crypto_box(
             $data,
-            random_bytes(SODIUM_CRYPTO_BOX_NONCEBYTES),
+            $nonce,
             $this->getKeypairFromSecretPublicKeys()
         );
     }
@@ -76,8 +77,8 @@ class SodiumCryptoBox implements EncoderInterface, NewEncoderInterface
     public function getKeypairFromSecretPublicKeys()
     {
         $keypair = sodium_crypto_box_keypair_from_secretkey_and_publickey(
-            $this->getPrivateKey(),
-            $this->getPublicKey()
+            sodium_hex2bin($this->getPrivateKey()),
+            sodium_hex2bin($this->getPublicKey())
         );
         return $keypair;
     }
