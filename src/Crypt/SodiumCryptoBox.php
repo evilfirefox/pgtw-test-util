@@ -2,7 +2,7 @@
 /**
  * pgtw-test-util
  *
- * @author Serhii Borodai <s.borodai@globalgames.net>
+ * Created by Serhii Borodai <clarifying@gmail.com>
  */
 
 namespace Crypt;
@@ -10,7 +10,7 @@ namespace Crypt;
 /**
  * Class SodiumCryptoBox
  * @package Crypt
- * @author Serhii Borodai <s.borodai@globalgames.net>
+ * @author  Serhii Borodai <clarifying@gmail.com>
  */
 class SodiumCryptoBox implements EncoderInterface, NewEncoderInterface
 {

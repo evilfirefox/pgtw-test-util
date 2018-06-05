@@ -2,7 +2,7 @@
 /**
  * test-util
  *
- * @author Serhii Borodai <s.borodai@globalgames.net>
+ * Created by Serhii Borodai <clarifying@gmail.com>
  */
 
 namespace Command;

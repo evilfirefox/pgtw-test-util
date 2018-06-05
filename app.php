@@ -5,9 +5,11 @@
  * @author Serhii Borodai <s.borodai@globalgames.net>
  */
 
+use Command\Balance;
 use Command\Decrypt;
 use Command\Encrypt;
 use Command\Keys;
+use Command\Pay;
 
 require 'vendor/autoload.php';
 
@@ -25,7 +27,9 @@ $app = new App();
 $app->addCommands([
     new Encrypt(),
     new Decrypt(),
-    new Keys()
+    new Keys(),
+    new Pay(),
+    new Balance(),
 ]);
 
 

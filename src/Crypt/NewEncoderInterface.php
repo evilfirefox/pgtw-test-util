@@ -2,7 +2,7 @@
 /**
  * pgtw-test-util
  *
- * @author Serhii Borodai <s.borodai@globalgames.net>
+ * Created by Serhii Borodai <clarifying@gmail.com>
  */
 
 namespace Crypt;
@@ -13,7 +13,7 @@ namespace Crypt;
  * used as marker for new crypt logic
  *
  * @package Crypt
- * @author Serhii Borodai <s.borodai@globalgames.net>
+ * @author  Serhii Borodai <clarifying@gmail.com>
  */
 interface NewEncoderInterface
 {

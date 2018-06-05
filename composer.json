@@ -17,6 +17,7 @@
     },
     "require": {
         "php": ">=7.2.0",
+        "ext/sodium": "2",
         "symfony/console": "v3.3.5",
         "phpseclib/phpseclib": "^2.0.6"
     }
