@@ -6,6 +6,7 @@
  */
 
 use Command\Balance;
+use Command\CreateAccount;
 use Command\Decrypt;
 use Command\Encrypt;
 use Command\Keys;
@@ -30,6 +31,7 @@ $app->addCommands([
     new Keys(),
     new Pay(),
     new Balance(),
+    new CreateAccount(),
 ]);
 
 

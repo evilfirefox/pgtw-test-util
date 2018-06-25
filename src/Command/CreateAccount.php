@@ -1,10 +1,8 @@
 <?php
 /**
- * Copyright Serhii Borodai (c) 2017-2018.
- */
-
-/**
- * Created by Serhii Borodai <clarifying@gmail.com>
+ * pgtw-test-util
+ *
+ * @author Serhii Borodai <serhii.borodai@globalgames.net>
  */
 
 namespace Command;
@@ -16,15 +14,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class Balance extends CommandAbstract
+class CreateAccount extends CommandAbstract
 {
-    protected  $pattern = '{"currencies":["DMC","USD"],"credentials":{"uuid":"%s"}}';
+    protected  $pattern = '{"paymentSystem":"dmarket.internal","currencyList":["DMC","USD"],"credentials":{"uuid":"%s","hash":"%s","keyIdent":"%s","email":"%s"}}';
 
 
     protected function configure()
     {
-        $this->setDescription('get balance by uuid');
+        $this->setDescription('create DMarket user accounts');
         $this->addArgument('uuid', InputArgument::REQUIRED);
+        $this->addArgument('hash', InputArgument::REQUIRED);
+        $this->addArgument('keyIdent', InputArgument::REQUIRED);
+        $this->addArgument('email', InputArgument::REQUIRED);
+
         $this->addArgument('pubkey', InputArgument::REQUIRED);
         $this->addArgument('privkey', InputArgument::REQUIRED);
 
@@ -34,6 +36,9 @@ class Balance extends CommandAbstract
     {
 
         $uuid = $input->getArgument('uuid');
+        $hash = $input->getArgument('hash');
+        $keyIdent = $input->getArgument('keyIdent');
+        $email = $input->getArgument('email');
 
         $encoder = new SodiumCryptoBox();
         $encoder->setPublicKey(file_get_contents($input->getArgument('pubkey')));
@@ -42,7 +47,7 @@ class Balance extends CommandAbstract
         $style = new SymfonyStyle($input, $output);
         $style->section('Prepared package');
 
-        $message = sprintf($this->pattern, $uuid);
+        $message = sprintf($this->pattern, $uuid, $hash, $keyIdent, $email);
 
         $style->text($message);
 
